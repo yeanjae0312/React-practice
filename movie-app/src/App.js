@@ -1,6 +1,45 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
+
+// study state
+class App extends React.Component { //필수로 extends 해야 함
+  state = {
+    count: 0
+  };
+  add = () => {
+    // this.state.count= 1;
+    this.setState(current => ({count: current.count + 1}));
+  };
+  minus = () => {
+    // this.state.count= -1;
+    this.setState(current => ({count: current.count - 1}));
+  };
+
+  componentDidMount() { // render function이 호출 된 후 실행
+    console.log('component rendered');
+  }
+  componentDidUpdate() { // update가 될때마다 실행
+    console.log('updated');
+  }
+  componentWillUnmount() { // component가 떠날 때 호출
+    console.log('goodbye');
+  }
+
+  render() { // render 안에서 return 해줘야 함
+    console.log('hihi');
+    return (
+      <div>
+        <h1>The number is: {this.state.count}</h1>
+        <button onClick={this.add}>Add</button>
+        <button onClick={this.minus}>Minus</button>
+      </div>
+    );
+  }
+}
+
+// study jsx & props
+/* 
 const foodILike = [
   {
     id:1,
@@ -57,6 +96,7 @@ function App() {
       {foodILike.map(dish => <Food key={dish.id} name={dish.name} picture={dish.image} rating={dish.rating}/>)}
     </div>
   );
-}
+} 
+*/
 
 export default App;
