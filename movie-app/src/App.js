@@ -1,8 +1,65 @@
 import React from 'react';
+import axios from 'axios';
+import Movie from './Movie';
+import "./App.css";
 import PropTypes from "prop-types";
 
 
+class App extends React.Component {
+  state = {
+    isLoading: true,
+    movies: []
+  };
+  getMovies = async () => { // async는 js에게 기다려야 한다고 전달하는 역할 (뭐를? await 뒤에 있는 axios를), 접근이 끝날때까지 기다림 (axios.get이 좀 느리기 때문)
+    const {
+      data: {
+        data : {movies}
+      }
+    } = await axios.get('https://yts-proxy.now.sh/list_movies.json?sort_by=rating'); // axios로 yts proxy를 가져옴
+    this.setState({movies, isLoading: false}); // == this.setState({movies:movies});
+  }
+  componentDidMount() { // component가 그려진 후 실행
+    this.getMovies();
+  }
+  render() {
+    const {isLoading, movies} = this.state;
+    return (
+      <section className="container">
+        <div>
+          {
+            isLoading ? (
+              <div className="loader">
+                <span className="loader__text">Loading...</span>
+              </div>
+            ) : (
+              <div className="movies">
+                {
+                  movies.map(movie => {
+                    return <Movie
+                    key={movie.id} 
+                    id={movie.id} 
+                    year={movie.year} 
+                    title={movie.title} 
+                    summary={movie.summary} 
+                    poster={movie.medium_cover_image} 
+                    genres={movie.genres}
+                    />
+                  })
+                }
+                </div>
+            )
+          }
+        </div>
+      </section>
+    );
+  }
+}
+
+
+export default App;
+
 // study state
+/* 
 class App extends React.Component { //필수로 extends 해야 함
   state = {
     count: 0
@@ -16,7 +73,7 @@ class App extends React.Component { //필수로 extends 해야 함
     this.setState(current => ({count: current.count - 1}));
   };
 
-  componentDidMount() { // render function이 호출 된 후 실행
+  componentDidMount() { // render function이 호출 된 후 실행 (component가 만들어진 후)
     console.log('component rendered');
   }
   componentDidUpdate() { // update가 될때마다 실행
@@ -36,7 +93,8 @@ class App extends React.Component { //필수로 extends 해야 함
       </div>
     );
   }
-}
+} 
+*/
 
 // study jsx & props
 /* 
@@ -99,4 +157,4 @@ function App() {
 } 
 */
 
-export default App;
+// export default App;
