@@ -29,6 +29,7 @@ html, body {
   padding: 50px;
   width: 80%;
   padding-top: 70px;
+  box-sizing: border-box;
 }
 
 @media screen and (max-width: 1090px) {
