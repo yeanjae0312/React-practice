@@ -1,4 +1,5 @@
 import React from "react";
+import "./Detail.css";
 
 class Detail extends React.Component {
     componentDidMount() {
@@ -10,7 +11,7 @@ class Detail extends React.Component {
     render() {
         const {location} = this.props;
         if(location.state) { //state가 있을 때 실행 (render먼저 실행한 후에 componentDidMount가 실행되기 때문에 검사를 한다)
-            return <span>{location.state.title}</span>
+            return <span className="title">{location.state.title}</span>
         } else {
             return null;
         }
